@@ -77,4 +77,32 @@ pipeline {
                 to: EMAIL_RECEPIENT
         }
     }
+
+
+
+    try {
+        stage 'Checkout'
+            checkout scm
+
+            sh 'git log HEAD^..HEAD --pretty="%h %an - %s" > GIT_CHANGES'
+            def lastChanges = readFile('GIT_CHANGES')
+            slackSend color: "warning", message: "Started `${env.JOB_NAME}#${env.BUILD_NUMBER}`\n\n_The changes:_\n${lastChanges}"
+
+
+        stage 'Clone repository'
+            echo 'Repository exists'
+        stage 'Test'
+            echo 'testing'
+        stage 'Deploy'
+            echo "Testing deploy."
+
+        stage 'Publish results'
+            slackSend color: "good", message: "Build successful :charmander_dancing: \n `${env.JOB_NAME}#${env.BUILD_NUMBER}` <${env.BUILD_URL}|Open in Jenkins> \n successfully deployed Live site \n https://young-waters-07809.herokuapp.com/"
+    }
+
+    catch (err) {
+        slackSend color: "danger", message: "Build failed :thumps_down: \n`${env.JOB_NAME}#${env.BUILD_NUMBER}` <${env.BUILD_URL}|Open in Jenkins>"
+
+        throw err
+    }
 }
