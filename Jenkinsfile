@@ -98,7 +98,7 @@ node {
             echo "Testing deploy."
 
         stage 'Publish results'
-            slackSend color: "good", message: "Build successful :charmander_dancing: \n `${env.JOB_NAME}#${env.BUILD_NUMBER}` <${env.BUILD_URL}|Open in Jenkins> \n successfully deployed Live site \n https://young-waters-07809.herokuapp.com/"
+            slackSend color: "good", message: "Build successful :charmander_dancing: \n `${env.JOB_NAME}#${env.BUILD_NUMBER}` <${env.BUILD_URL}|Open in Jenkins> \n successfully deployed Live site \n https://mighty-anchorage-02270.herokuapp.com/"
     }
 
     catch (err) {
